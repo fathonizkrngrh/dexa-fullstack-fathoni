@@ -1,0 +1,148 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: fathoni
+      MYSQL_DATABASE: dexa_employee
+      MYSQL_PASSWORD: fathoni
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: redis-service
+    volumes:
+      - redis_data:/data
+    restart: always
+    ports:
+      - "6370:6379"
+
+  auth-service:
+    build:
+      context: ./services/auth-service
+    container_name: auth-service
+    ports:
+      - "4001:4000"
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - PORT=4000
+      - DB_USER_ATTENDANCE=root
+      - DB_PASSWORD_ATTENDANCE=fathoni
+      - DB_HOST_ATTENDANCE=mysql
+      - DB_PORT_ATTENDANCE=3306
+      - DB_NAME_ATTENDANCE=dexa_employee
+      - SECRET_KEY=secretKey
+      - REDIS_HOST=redis-service
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=fathoni
+      - LOG_FORMAT=dev
+      - LOG_DIR=../logs
+      - ORIGIN=*
+      - CREDENTIALS=true
+
+  attendance-service:
+    build:
+      context: ./services/attendance-service
+    container_name: attendance-service
+    ports:
+      - "4002:4000"
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - PORT=4000
+      - DB_USER_ATTENDANCE=root
+      - DB_PASSWORD_ATTENDANCE=fathoni
+      - DB_HOST_ATTENDANCE=mysql
+      - DB_PORT_ATTENDANCE=3306
+      - DB_NAME_ATTENDANCE=dexa_employee
+      - REDIS_HOST=redis-service
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=fathoni
+      - SECRET_KEY=secretKey
+      - LOG_FORMAT=dev
+      - LOG_DIR=../logs
+      - ORIGIN=*
+      - CREDENTIALS=true
+
+  employee-service:
+    build:
+      context: ./services/employee-service
+    container_name: employee-service
+    ports:
+      - "4003:4000"
+    depends_on:
+      - mysql
+    environment:
+      - PORT=4000
+      - DB_USER_ATTENDANCE=root
+      - DB_PASSWORD_ATTENDANCE=fathoni
+      - DB_HOST_ATTENDANCE=mysql
+      - DB_PORT_ATTENDANCE=3306
+      - DB_NAME_ATTENDANCE=dexa_employee
+      - REDIS_HOST=redis-service
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=fathoni
+      - SECRET_KEY=secretKey
+      - LOG_FORMAT=dev
+      - LOG_DIR=../logs
+      - ORIGIN=*
+      - CREDENTIALS=true
+      - CLOUDINARY_NAME=dlwncfs2u
+      - CLOUDINARY_KEY=825989214586882
+      - CLOUDINARY_SECRET=bPnfrGjkayfgnrAIDUmGqbcThHs
+
+  file-service:
+    build:
+      context: ./services/file-service
+    container_name: file-service
+    ports:
+      - "4004:4000"
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      - mysql
+    environment:
+      - PORT=4000
+      - DB_USER_ATTENDANCE=root
+      - DB_PASSWORD_ATTENDANCE=fathoni
+      - DB_HOST_ATTENDANCE=mysql
+      - DB_PORT_ATTENDANCE=3306
+      - DB_NAME_ATTENDANCE=dexa_employee
+      - SECRET_KEY=secretKey
+      - LOG_FORMAT=dev
+      - LOG_DIR=../logs
+      - ORIGIN=*
+      - CREDENTIALS=true
+      - CLOUDINARY_NAME=dlwncfs2u
+      - CLOUDINARY_KEY=825989214586882
+      - CLOUDINARY_SECRET=bPnfrGjkayfgnrAIDUmGqbcThHs
+
+  frontend:
+    build:
+      context: ./client/presence-app
+    container_name: frontend
+    ports:
+      - "4000:4000"
+    depends_on:
+      - auth-service
+      - attendance-service
+      - employee-service
+      - file-service
+    environment:
+      - NEXT_PUBLIC_AUTH_API=http://auth-service:4000
+      - NEXT_PUBLIC_ATTENDANCE_API=http://attendance-service:4000
+      - NEXT_PUBLIC_EMPLOYEE_API=http://employee-service:4000
+      - NEXT_PUBLIC_FILE_API=http://file-service:4000
+
+volumes:
+  mysql_data:
+  redis_data:

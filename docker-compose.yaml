@@ -25,7 +25,7 @@ services:
 
   auth-service:
     build:
-      context: ./services/auth-service
+      context: ./services/authentication-service
     container_name: auth-service
     ports:
       - "4001:4000"

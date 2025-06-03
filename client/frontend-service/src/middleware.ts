@@ -19,6 +19,11 @@ export function middleware(request: NextRequest) {
 		return NextResponse.redirect(loginUrl);
 	}
 
+	if (path === '/') {
+		const loginUrl = new URL('/login?message=Please login to access this page.', request.url);
+		return NextResponse.redirect(loginUrl);
+	}
+
 	// if (path.startsWith('/employee') && user.role !== 'EMPLOYEE') {
 	// 	const loginUrl = new URL('/login?message=You are not authorized to access this page.', request.url);
 	// 	return NextResponse.redirect(loginUrl);

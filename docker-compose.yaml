@@ -117,6 +117,9 @@ services:
       - DB_HOST_ATTENDANCE=mysql
       - DB_PORT_ATTENDANCE=3306
       - DB_NAME_ATTENDANCE=dexa_employee
+      - REDIS_HOST=redis-service
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=fathoni
       - SECRET_KEY=secretKey
       - LOG_FORMAT=dev
       - LOG_DIR=../logs

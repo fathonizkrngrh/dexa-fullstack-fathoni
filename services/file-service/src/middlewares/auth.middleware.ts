@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 import { CONFIG, SECRET_KEY } from '@config';
 import { DB } from '@/database/mysql/attendance.db';
-import { HttpException } from '@exceptions/httpException';
+import { HttpException } from '@/exceptions/httpException';
 import { DataStoredInToken, RequestWithUser } from '@interfaces/auth.interface';
 import { RedisUtil } from '@/utils/cache';
 

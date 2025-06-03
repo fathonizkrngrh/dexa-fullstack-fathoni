@@ -3,7 +3,7 @@ import { CONFIG } from '@/config';
 import { Op } from 'sequelize';
 import { DB } from '@/database/mysql/attendance.db';
 import { CreateAttendanceDto } from '@/dtos/attendances.dto';
-import { HttpException } from '@/exceptions/HttpException';
+import { HttpException } from '@/exceptions/httpException';
 import { Attendance } from '@/interfaces/attendances.interface';
 import { Employee } from '@/interfaces/employees.interface';
 import { EmployeeFilterQuery } from '@/interfaces/query/employee.interface';

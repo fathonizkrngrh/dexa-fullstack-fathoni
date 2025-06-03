@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { DB } from '@/database/mysql/attendance.db';
-import { HttpException } from '@/exceptions/HttpException';
+import { HttpException } from '@/exceptions/httpException';
 import { Employee } from '@interfaces/employees.interface';
 import { paginateData, parsePagination } from '@/utils/pagination';
 import { EmployeeFilterQuery } from '@/interfaces/query/employee.interface';

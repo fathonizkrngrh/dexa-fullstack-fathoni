@@ -128,7 +128,7 @@ services:
 
   frontend:
     build:
-      context: ./client/presence-app
+      context: ./client/frontend-service
     container_name: frontend
     ports:
       - "4000:4000"

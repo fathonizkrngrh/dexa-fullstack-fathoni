@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { DB } from '@/database/mysql/attendance.db';
-import { HttpException } from '@/exceptions/HttpException';
+import { HttpException } from '@/exceptions/httpException';
 import { User } from '@interfaces/users.interface';
 import { createCookie, createToken } from '@/utils/token';
 import { comparePassword, generatePassword, hashPassword } from '@/utils/password';

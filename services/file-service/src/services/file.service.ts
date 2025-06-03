@@ -1,5 +1,5 @@
 import { DB } from '@/database/mysql/attendance.db';
-import { HttpException } from '@/exceptions/HttpException';
+import { HttpException } from '@/exceptions/httpException';
 import { deleteFromCloudinary, uploadToCloudinary } from '@/utils/cloudinary';
 import { Transaction } from 'sequelize';
 import { Service } from 'typedi';

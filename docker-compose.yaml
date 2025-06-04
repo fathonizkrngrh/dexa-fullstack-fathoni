@@ -142,10 +142,10 @@ services:
       - employee-service
       - file-service
     environment:
-      - NEXT_PUBLIC_AUTH_API=http://auth-service:4000
-      - NEXT_PUBLIC_ATTENDANCE_API=http://attendance-service:4000
-      - NEXT_PUBLIC_EMPLOYEE_API=http://employee-service:4000
-      - NEXT_PUBLIC_FILE_API=http://file-service:4000
+      - NEXT_PUBLIC_AUTH_API=http://localhost:4001
+      - NEXT_PUBLIC_ATTENDANCE_API=http://localhost:4002
+      - NEXT_PUBLIC_EMPLOYEE_API=http://localhost:4003
+      - NEXT_PUBLIC_FILE_API=http://localhost:4004
 
 volumes:
   mysql_data:
